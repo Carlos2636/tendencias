@@ -31,7 +31,7 @@ df = pd.read_excel("suma_por_carrera_2024.xlsx")
 # === Título ===
 st.markdown("""
     <div style='background-color: #660000; padding: 10px 20px; border-radius: 8px;'>
-        <h1 style='color: white;'>Referencia Facultad - Ingresos 2024</h1>
+        <h1 style='color: white;'>Mercado</h1>
     </div>
 """, unsafe_allow_html=True)
 
