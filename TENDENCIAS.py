@@ -18,7 +18,7 @@ consulta_12 = st.number_input("Consulta Ventas 12%", min_value=0.0, value=0.0, s
 consulta_0 = st.number_input("Consulta Ventas 0%", min_value=0.0, value=0.0, step=1000.0)
 
 # === Función de cálculo con regla de tres y tope 15% ===
-def calcular_porcentaje(consulta, referencia_parcial, referencia_total):
+def calcular_porcentaje(consulta, referencia_total, referencia_parcial):
     if referencia_parcial == 0:
         return 0.0
     resultado = (consulta * referencia_total) / referencia_parcial
