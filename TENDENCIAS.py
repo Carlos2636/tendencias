@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 
 # === Cargar datos base ===
-df = pd.read_excel("./suma_por_carrera_2024.xlsx")
+df = pd.read_excel("suma_por_carrera_2024.xlsx")
 
 # === Título ===
 st.title("Referencia Facultad - Ingresos 2024")
@@ -26,9 +26,9 @@ def calcular_porcentaje(consulta, referencia_parcial, referencia_total):
 
 # === Cálculo individual ===
 referencia_total = resumen['2024_TOTAL']
-resultado_total = calcular_porcentaje(consulta_total, resumen['2024_TOTAL'], referencia_total) * 100
-resultado_12 = calcular_porcentaje(consulta_12, resumen['2024_VENTAS_12'], referencia_total) * 100
-resultado_0 = calcular_porcentaje(consulta_0, resumen['2024_VENTAS_0'], referencia_total) * 100
+resultado_total = calcular_porcentaje(consulta_total, referencia_total, resumen['2024_TOTAL']) * 100
+resultado_12 = calcular_porcentaje(consulta_12, referencia_total, resumen['2024_VENTAS_12']) * 100
+resultado_0 = calcular_porcentaje(consulta_0, referencia_total, resumen['2024_VENTAS_0']) * 100
 
 # === Promedio final ===
 promedio = (resultado_total + resultado_12 + resultado_0) / 3
