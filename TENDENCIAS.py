@@ -1,21 +1,54 @@
 import pandas as pd
 import streamlit as st
- 
-# Cargar los resultados generados previamente
 
+# === Cargar datos base ===
 df = pd.read_excel("./suma_por_carrera_2024.xlsx")
- 
-# Título
+
+# === Título ===
 st.title("Referencia Facultad - Ingresos 2024")
- 
-# Selector de carrera
+
+# === Selección de Carrera ===
 carrera = st.selectbox("Selecciona una carrera:", df['Carrera'].unique())
- 
-# Filtrar los datos
 resumen = df[df['Carrera'] == carrera].iloc[0]
- 
-# Mostrar los resultados en formato visual
+
+# === Entradas del usuario ===
+st.markdown("### Consulta del usuario")
+consulta_total = st.number_input("Consulta Total Ingresos", min_value=0.0, value=0.0, step=1000.0)
+consulta_12 = st.number_input("Consulta Ventas 12%", min_value=0.0, value=0.0, step=1000.0)
+consulta_0 = st.number_input("Consulta Ventas 0%", min_value=0.0, value=0.0, step=1000.0)
+
+# === Funcíon de cálculo con límite del 15% ===
+def calcular_porcentaje(consulta, referencia):
+    if referencia == 0:
+        return 0.0
+    resultado = (consulta * resumen['2024_TOTAL']) / referencia
+    return min(resultado / resumen['2024_TOTAL'], 0.15)  # Regla de tres + tope 15%
+
+# === Cálculo individual ===
+resultado_total = calcular_porcentaje(consulta_total, resumen['2024_TOTAL']) * 100
+resultado_12 = calcular_porcentaje(consulta_12, resumen['2024_VENTAS_12']) * 100
+resultado_0 = calcular_porcentaje(consulta_0, resumen['2024_VENTAS_0']) * 100
+
+# === Promedio final ===
+promedio = (resultado_total + resultado_12 + resultado_0) / 3
+
+# === Resultados ===
 st.markdown("### Resultados")
-st.markdown(f"**Total Ingresos:** ${resumen['2024_TOTAL']:,.0f}")
-st.markdown(f"**Ventas 12%:** ${resumen['2024_VENTAS_12']:,.0f}")
-st.markdown(f"**Ventas 0%:** ${resumen['2024_VENTAS_0']:,.0f}")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("#### Referencia Facultad")
+    st.metric("Total Ingresos", f"${resumen['2024_TOTAL']:,.0f}")
+    st.metric("Ventas 12%", f"${resumen['2024_VENTAS_12']:,.0f}")
+    st.metric("Ventas 0%", f"${resumen['2024_VENTAS_0']:,.0f}")
+
+with col2:
+    st.markdown("#### Resultado (%)")
+    st.metric("Total Ingresos", f"{resultado_total:.2f}%")
+    st.metric("Ventas 12%", f"{resultado_12:.2f}%")
+    st.metric("Ventas 0%", f"{resultado_0:.2f}%")
+
+# === Resultado final ===
+st.markdown("---")
+st.markdown(f"### ✅ Resultado Final: **{promedio:.2f}%**")
