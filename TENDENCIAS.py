@@ -18,17 +18,16 @@ consulta_12 = st.number_input("Consulta Ventas 12%", min_value=0.0, value=0.0, s
 consulta_0 = st.number_input("Consulta Ventas 0%", min_value=0.0, value=0.0, step=1000.0)
 
 # === Función de cálculo corregida: (consulta * 15%) / referencia_facultad ===
-def calcular_porcentaje(consulta, referencia_facultad):
-    if referencia_facultad == 0:
+def calcular_porcentaje(consulta, referencia):
+    if referencia == 0:
         return 0.0
-    resultado = (consulta * 0.15) / referencia_facultad
+    resultado = (consulta * 0.15) / referencia
     return min(resultado, 0.15)
 
 # === Cálculo individual ===
-referencia_total = resumen['2024_TOTAL']
-resultado_total = calcular_porcentaje(consulta_total, referencia_total) * 100
-resultado_12 = calcular_porcentaje(consulta_12, referencia_total) * 100
-resultado_0 = calcular_porcentaje(consulta_0, referencia_total) * 100
+resultado_total = calcular_porcentaje(consulta_total, resumen['2024_TOTAL']) * 100
+resultado_12 = calcular_porcentaje(consulta_12, resumen['2024_VENTAS_12']) * 100
+resultado_0 = calcular_porcentaje(consulta_0, resumen['2024_VENTAS_0']) * 100
 
 # === Promedio final ===
 promedio = (resultado_total + resultado_12 + resultado_0) / 3
