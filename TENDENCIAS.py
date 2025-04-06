@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 
 # === Cargar datos base ===
-df = pd.read_excel("suma_por_carrera_2024.xlsx")
+df = pd.read_excel("./suma_por_carrera_2024.xlsx")
 
 # === Título ===
 st.title("Referencia Facultad - Ingresos 2024")
